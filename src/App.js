@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import AddBookmark from './AddBookmark/AddBookmark';
 import BookmarkList from './BookmarkList/BookmarkList';
 import BookmarksContext from './BookmarksContext';
+import EditBookmark from './EditBookmark/EditBookmark';
 import Nav from './Nav/Nav';
 import config from './config';
 import './App.css';
@@ -18,13 +19,13 @@ class App extends Component {
       bookmarks,
       error: null,
     })
-  }
+  };
 
   addBookmark = bookmark => {
     this.setState({
       bookmarks: [ ...this.state.bookmarks, bookmark ],
     })
-  }
+  };
 
   deleteBookmark = bookmarkId => {
     const newBookmarks = this.state.bookmarks.filter(bm =>
@@ -33,7 +34,25 @@ class App extends Component {
     this.setState({
       bookmarks: newBookmarks
     })
-  }
+  };
+
+  updateBookmark = updatedBookmark => {
+    this.setState({
+      bookmarks: this.state.bookmarks.map(bm =>
+        (bm.id !== updatedBookmark.id) ? bm : updatedBookmark
+      )
+    })
+  };
+
+  // editBookmark = (bookmarkId, bookmarkData) => {
+  //   this.setState({
+  //     bookmarks: this.state.bookmarks.map(b => 
+  //       b.id === Number(bookmarkId) ? 
+  //         {...b, ...bookmarkData} 
+  //         : b
+  //     )
+  //   })
+  // };
 
   componentDidMount() {
     fetch(config.API_ENDPOINT, {
@@ -54,13 +73,15 @@ class App extends Component {
         console.error(error)
         this.setState({ error })
       })
-  }
+  };
 
   render() {
     const contextValue = {
       bookmarks: this.state.bookmarks,
       addBookmark: this.addBookmark,
       deleteBookmark: this.deleteBookmark,
+      updateBookmark: this.updateBookmark,
+      //editBookmark: this.editBookmark,
     }
     return (
       <main className='App'>
@@ -77,11 +98,23 @@ class App extends Component {
               path='/'
               component={BookmarkList}
             />
+            <Route
+              path='/edit-bookmark/:bookmarkId'
+              component={EditBookmark}
+            />
           </div>
         </BookmarksContext.Provider>
       </main>
     );
   }
-}
+
+};
 
 export default App;
+
+
+
+
+
+
+

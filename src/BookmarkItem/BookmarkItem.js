@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Rating from '../Rating/Rating';
 import BookmarksContext from '../BookmarksContext';
 import config from '../config';
@@ -25,7 +26,7 @@ function deleteBookmarkRequest(bookmarkId, cb) {
     .catch(error => {
       console.error(error)
     })
-}
+};
 
 export default function BookmarkItem(props) {
   return (
@@ -47,6 +48,15 @@ export default function BookmarkItem(props) {
             {props.description}
           </p>
           <div className='BookmarkItem__buttons'>
+            <Link to={`/edit-bookmark/${props.id}`}
+            >
+              <button
+                className='BookmarkItem__description'
+              >
+                Edit
+              </button> 
+            </Link>
+            
             <button
               className='BookmarkItem__description'
               onClick={() => {
@@ -63,11 +73,11 @@ export default function BookmarkItem(props) {
       )}
     </BookmarksContext.Consumer>
   )
-}
+};
 
 BookmarkItem.defaultProps = {
   onClickDelete: () => {},
-}
+};
 
 BookmarkItem.propTypes = {
   id: PropTypes.oneOfType([
@@ -79,4 +89,8 @@ BookmarkItem.propTypes = {
   desciption: PropTypes.string,
   rating: PropTypes.number.isRequired,
   onClickDelete: PropTypes.func,
-}
+};
+
+
+
+

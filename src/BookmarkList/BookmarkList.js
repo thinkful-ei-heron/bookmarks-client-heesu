@@ -35,6 +35,10 @@ class BookmarkList extends Component {
       </section>
     );
   }
-}
+};
 
 export default BookmarkList;
+
+
+
+
